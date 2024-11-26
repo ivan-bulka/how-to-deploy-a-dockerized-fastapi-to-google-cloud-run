@@ -1,0 +1,24 @@
+# API gateway config for Configuring External access to API
+swagger: '2.0'
+info:
+  title: Test Deployment API gateway
+  description: API for right insight data
+  version: 1.0.0
+schemes:
+- https
+security:
+  - api_key: []
+produces:
+- application/json
+x-google-backend:
+  address: https://test-github-action-deployment-750561185626.us-east1.run.app
+paths:
+  /:
+    get:
+      summary: Cloud Run hello world
+      operationId: hello
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string
