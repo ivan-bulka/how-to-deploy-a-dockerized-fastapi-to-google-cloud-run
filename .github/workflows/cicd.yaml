@@ -19,7 +19,7 @@ on:
       - main
 
 jobs:
-  dockerize-and-deploy:
+  deploy-api-layer:
     runs-on: ubuntu-latest
 
     steps:
@@ -71,6 +71,11 @@ jobs:
       - name: Deploy API Gateway
         run: |
           gcloud api-gateway gateways update ${{ env.API_GATEWAY_ID }} \
+            --api=${{ env.API_ID}} \
+            --api-config=${{ env.API_GATEWAY_CONFIG_ID }} \
+            --location=${{ env.REGION }} || \
+          
+            gcloud api-gateway gateways create ${{ env.API_GATEWAY_ID }} \
             --api=${{ env.API_ID}} \
             --api-config=${{ env.API_GATEWAY_CONFIG_ID }} \
             --location=${{ env.REGION }}
