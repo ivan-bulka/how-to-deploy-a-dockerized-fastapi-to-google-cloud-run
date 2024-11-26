@@ -54,7 +54,7 @@ jobs:
 #            --allow-unauthenticated
       - name: Generate API_GATEWAY_CONFIG_ID
         id: uuid
-        run: echo "::set-env name=API_GATEWAY_CONFIG_ID::$(uuidgen | tr '[:upper:]' '[:lower:]')"
+        run: echo 'API_GATEWAY_CONFIG_ID=$(uuidgen | tr '[:upper:]' '[:lower:]')' >> $GITHUB_ENV
       - name: Configure API Gateway config
         run: |
           gcloud api-gateway api-configs create ${{ env.API_GATEWAY_CONFIG_ID}} \
