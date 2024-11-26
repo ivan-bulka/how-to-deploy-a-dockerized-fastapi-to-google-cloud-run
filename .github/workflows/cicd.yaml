@@ -54,7 +54,7 @@ jobs:
 #            --allow-unauthenticated
       - name: Generate API_GATEWAY_CONFIG_ID
         id: uuid
-        run: echo "API_GATEWAY_CONFIG_ID=\$(uuidgen | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+        run: echo 'API_GATEWAY_CONFIG_ID='`uuidgen | tr '[:upper:]' '[:lower:]'`>> $GITHUB_ENV
 
       - name: Check the env variables
         run: env
