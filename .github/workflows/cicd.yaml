@@ -8,6 +8,7 @@ env:
   API_GATEWAY_CONFIG_SPEC: openapi2-run.yaml
   API_ID: test-deployment-api
   API_GATEWAY_ID: test-deployment-api-gateway
+  REGION: us-central1
 
 
 on:
@@ -50,7 +51,7 @@ jobs:
 #          gcloud run deploy $SERVICE_NAME \
 #            --image ${{ env.DOCKER_IMAGE_URL }}:latest \
 #            --platform managed \
-#            --region us-east1 \
+#            --region ${{env.REGION}} \
 #            --allow-unauthenticated
       - name: Configure API Gateway config
         run: |
@@ -61,5 +62,6 @@ jobs:
         run: |
           gcloud api-gateway gateways create ${{env.API_GATEWAY_ID}} \
             --api=${{ env.API_ID}} \
-            --api-config=${{ env.API_GATEWAY_CONFIG_ID}}
+            --api-config=${{ env.API_GATEWAY_CONFIG_ID}} \
+            --region=${{env.REGION}}
 
