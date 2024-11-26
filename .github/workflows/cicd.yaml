@@ -1,9 +1,9 @@
 name: Deploy to Cloud Run
 
 env:
-  SERVICE_NAME: custom-fastapi-service
-  PROJECT_ID: h-t-d-a-f-a-t-g-c-r
-  DOCKER_IMAGE_URL: us-central1-docker.pkg.dev/h-t-d-a-f-a-t-g-c-r/custom-fastapi/custom-fastapi
+  SERVICE_NAME: test-github-action-deployment
+  PROJECT_ID: risk-insight---non-prod
+  DOCKER_IMAGE_URL: us-central1-docker.pkg.dev/risk-insight---non-prod/test-github-action-deployment/custom-fastapi
 
 on:
   push:
