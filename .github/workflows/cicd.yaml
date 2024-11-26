@@ -7,6 +7,7 @@ env:
   API_GATEWAY_CONFIG_ID: api-gateway-config-2
   API_GATEWAY_CONFIG_SPEC: openapi2-run.yaml
   API_ID: test-deployment-api
+  API_GATEWAY_ID: test-deployment-api-gateway
 
 
 on:
@@ -56,4 +57,9 @@ jobs:
           gcloud api-gateway api-configs create ${{ env.API_GATEWAY_CONFIG_ID}} \
             --api=${{ env.API_ID}} \
             --openapi-spec=${{env.API_GATEWAY_CONFIG_SPEC}}
-        
+      - name: Deploy API Gateway
+        run: |
+          gcloud api-gateway gateways create ${{API_GATEWAY_ID}} \
+            --api=${{ env.API_ID}} \
+            --api-config=${{ env.API_GATEWAY_CONFIG_ID}}
+
