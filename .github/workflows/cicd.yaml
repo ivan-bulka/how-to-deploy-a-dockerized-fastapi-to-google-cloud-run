@@ -4,7 +4,6 @@ env:
   SERVICE_NAME: test-github-action-deployment
   PROJECT_ID: risk-insight---non-prod
   DOCKER_IMAGE_URL: us-central1-docker.pkg.dev/risk-insight---non-prod/test-github-action-deployment/custom-fastapi
-  API_GATEWAY_CONFIG_ID: api-gateway-config-12
   API_GATEWAY_CONFIG_SPEC: openapi2-run.yaml
   API_ID: test-deployment-api
   API_GATEWAY_ID: test-deployment-api-gateway
@@ -53,6 +52,9 @@ jobs:
 #            --platform managed \
 #            --region ${{env.REGION}} \
 #            --allow-unauthenticated
+      - name: Generate API_GATEWAY_CONFIG_ID
+        id: uuid
+        run: echo "::set-env name=API_GATEWAY_CONFIG_ID::$(uuidgen | tr '[:upper:]' '[:lower:]')"
       - name: Configure API Gateway config
         run: |
           gcloud api-gateway api-configs create ${{ env.API_GATEWAY_CONFIG_ID}} \
