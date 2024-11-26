@@ -51,7 +51,7 @@ jobs:
 #            --platform managed \
 #            --region us-east1 \
 #            --allow-unauthenticated
-#      - name: Configure API Gateway config
+      - name: Configure API Gateway config
         run: |
           gcloud api-gateway api-configs create ${{ env.API_GATEWAY_CONFIG_ID}} \
             --api=${{ env.API_ID}} \
