@@ -55,11 +55,19 @@ jobs:
       - name: Generate API_GATEWAY_CONFIG_ID
         id: uuid
         run: echo "API_GATEWAY_CONFIG_ID=\$(uuidgen | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+      - name: Check the env variables
+        run: env
+
       - name: Configure API Gateway config
         run: |
           gcloud api-gateway api-configs create ${{ env.API_GATEWAY_CONFIG_ID}} \
             --api=${{ env.API_ID }} \
             --openapi-spec=${{ env.API_GATEWAY_CONFIG_SPEC }}
+
+      - name: Check the env variables again
+        run: env
+
       - name: Deploy API Gateway
         run: |
           gcloud api-gateway gateways update ${{ env.API_GATEWAY_ID }} \
