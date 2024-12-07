@@ -73,7 +73,7 @@ jobs:
             --image ${{ env.DOCKER_IMAGE_URL }}:latest \
             --platform managed \
             --region ${{env.REGION}} \
-            --env-vars-file dev.yaml
+            --env-vars-file $ENV_FILE \
             --allow-unauthenticated
 #      - name: Generate API_GATEWAY_CONFIG_ID
 #        id: uuid
