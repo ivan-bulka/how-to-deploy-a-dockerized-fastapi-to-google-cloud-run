@@ -9,7 +9,6 @@ env:
   API_GATEWAY_ID: test-deployment-api-gateway
   REGION: us-central1
 
-
 on:
   push:
     branches:
