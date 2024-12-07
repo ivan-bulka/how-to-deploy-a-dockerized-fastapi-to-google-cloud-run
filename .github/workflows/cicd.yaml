@@ -5,9 +5,6 @@ on:
     branches:
       - main
       - dev
-#  pull_request:
-#    branches:
-#      - main
 
 
 jobs:
@@ -33,14 +30,21 @@ jobs:
         run: |
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             ENV_FILE="prod.yaml"
-            CREDENTIALS_JSON="${{ secrets.PROD_GCP_SA_KEY }}"
+            echo "Using PROD environment"
           elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
             ENV_FILE="dev.yaml"
-            CREDENTIALS_JSON="${{ secrets.GCP_SA_KEY }}"
+            echo "Using DEV environment"
+          else
+            echo "Unsupported branch. Exiting."
+            exit 1
           fi
-          
-          echo "Using file: $ENV_FILE"
-          echo "credentials_json=$CREDENTIALS_JSON" >> $GITHUB_ENV
+
+          # Set credentials based on determined environment
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "credentials_json=${{ secrets.PROD_GCP_SA_KEY }}" >> $GITHUB_ENV
+          elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
+            echo "credentials_json=${{ secrets.DEV_GCP_SA_KEY }}" >> $GITHUB_ENV
+          fi
           
           cat $ENV_FILE
              python -c "import yaml; vars = yaml.safe_load(open('$ENV_FILE')); [print(f'{k}={v}') for k, v in vars.items()]" >> $GITHUB_ENV
