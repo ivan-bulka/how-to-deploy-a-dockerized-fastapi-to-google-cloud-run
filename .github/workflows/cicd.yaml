@@ -61,7 +61,6 @@ jobs:
       - name: Configure Docker
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev
-          cat $ENV_FILE
 
       - name: Build and Push Docker Image
         run: |
@@ -73,8 +72,8 @@ jobs:
           gcloud run deploy $SERVICE_NAME \
             --image ${{ env.DOCKER_IMAGE_URL }}:latest \
             --platform managed \
-            --region ${{env.REGION}} \
-            --env-vars-file $ENV_FILE \
+            --region ${{ env.REGION }} \
+            --env-vars-file ${{ ENV_FILE }} \
             --allow-unauthenticated
 #      - name: Generate API_GATEWAY_CONFIG_ID
 #        id: uuid
