@@ -39,6 +39,9 @@ jobs:
             exit 1
           fi
           
+          cat $ENV_FILE
+             python -c "import yaml; vars = yaml.safe_load(open('$ENV_FILE')); [print(f'{k}={v}') for k, v in vars.items()]" >> $GITHUB_ENV
+          
       - name: Google Cloud Auth for Main
         uses: 'google-github-actions/auth@v2'
         if: github.ref == 'refs/heads/main'
