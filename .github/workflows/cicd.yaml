@@ -61,6 +61,7 @@ jobs:
       - name: Configure Docker
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev
+          cat $ENV_FILE
 
       - name: Build and Push Docker Image
         run: |
