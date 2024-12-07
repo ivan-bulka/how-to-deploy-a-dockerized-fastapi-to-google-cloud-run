@@ -43,9 +43,9 @@ jobs:
         run: |
           # Set credentials based on determined environment
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            "credentials_json=${{ secrets.GCP_SA_KEY }}" >> $GITHUB_ENV
+            echo "GCP_SA_KEY=${{ secrets.GCP_SA_KEY }}" >> $GITHUB_ENV
           elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
-            "credentials_json=${{ secrets.GCP_SA_KEY }}" >> $GITHUB_ENV
+            echo "GCP_SA_KEY=${{ secrets.GCP_SA_KEY }}" >> $GITHUB_ENV
           fi
           
 #          cat $ENV_FILE
