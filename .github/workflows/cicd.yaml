@@ -35,48 +35,48 @@ jobs:
       - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v2'
 
-#      - name: Configure Docker
-#        run: |
-#          gcloud auth configure-docker us-central1-docker.pkg.dev
-#
-#      - name: Build and Push Docker Image
-#        run: |
-#          docker build -t ${{ env.DOCKER_IMAGE_URL }}:latest -f Dockerfile.prod .
-#          docker push ${{ env.DOCKER_IMAGE_URL }}:latest
-#
-#      - name: Deploy to Cloud Run
-#        run: |
-#          echo SERVICE_NAME $SERVICE_NAME
-#          gcloud run deploy $SERVICE_NAME \
-#            --image ${{ env.DOCKER_IMAGE_URL }}:latest \
-#            --platform managed \
-#            --region ${{env.REGION}} \
-#            --allow-unauthenticated
-      - name: Generate API_GATEWAY_CONFIG_ID
-        id: uuid
-        run: echo 'API_GATEWAY_CONFIG_ID='`uuidgen | tr '[:upper:]' '[:lower:]'`>> $GITHUB_ENV
-
-      - name: Check the env variables
-        run: env
-
-      - name: Configure API Gateway config
+      - name: Configure Docker
         run: |
-          gcloud api-gateway api-configs create ${{ env.API_GATEWAY_CONFIG_ID}} \
-            --api=${{ env.API_ID }} \
-            --openapi-spec=${{ env.API_GATEWAY_CONFIG_SPEC }}
+          gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      - name: Check the env variables again
-        run: env
-
-      - name: Deploy API Gateway
+      - name: Build and Push Docker Image
         run: |
-          gcloud api-gateway gateways update ${{ env.API_GATEWAY_ID }} \
-            --api=${{ env.API_ID}} \
-            --api-config=${{ env.API_GATEWAY_CONFIG_ID }} \
-            --location=${{ env.REGION }} || \
-          
-            gcloud api-gateway gateways create ${{ env.API_GATEWAY_ID }} \
-            --api=${{ env.API_ID}} \
-            --api-config=${{ env.API_GATEWAY_CONFIG_ID }} \
-            --location=${{ env.REGION }}
+          docker build -t ${{ env.DOCKER_IMAGE_URL }}:latest -f Dockerfile.prod .
+          docker push ${{ env.DOCKER_IMAGE_URL }}:latest
+
+      - name: Deploy to Cloud Run
+        run: |
+          echo SERVICE_NAME $SERVICE_NAME
+          gcloud run deploy $SERVICE_NAME \
+            --image ${{ env.DOCKER_IMAGE_URL }}:latest \
+            --platform managed \
+            --region ${{env.REGION}} \
+            --allow-unauthenticated
+#      - name: Generate API_GATEWAY_CONFIG_ID
+#        id: uuid
+#        run: echo 'API_GATEWAY_CONFIG_ID='`uuidgen | tr '[:upper:]' '[:lower:]'`>> $GITHUB_ENV
+#
+#      - name: Check the env variables
+#        run: env
+#
+#      - name: Configure API Gateway config
+#        run: |
+#          gcloud api-gateway api-configs create ${{ env.API_GATEWAY_CONFIG_ID}} \
+#            --api=${{ env.API_ID }} \
+#            --openapi-spec=${{ env.API_GATEWAY_CONFIG_SPEC }}
+#
+#      - name: Check the env variables again
+#        run: env
+#
+#      - name: Deploy API Gateway
+#        run: |
+#          gcloud api-gateway gateways update ${{ env.API_GATEWAY_ID }} \
+#            --api=${{ env.API_ID}} \
+#            --api-config=${{ env.API_GATEWAY_CONFIG_ID }} \
+#            --location=${{ env.REGION }} || \
+#
+#            gcloud api-gateway gateways create ${{ env.API_GATEWAY_ID }} \
+#            --api=${{ env.API_ID}} \
+#            --api-config=${{ env.API_GATEWAY_CONFIG_ID }} \
+#            --location=${{ env.REGION }}
 
