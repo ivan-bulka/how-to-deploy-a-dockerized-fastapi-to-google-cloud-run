@@ -40,6 +40,7 @@ jobs:
           
           cat $ENV_FILE
              python -c "import yaml; vars = yaml.safe_load(open('$ENV_FILE')); [print(f'{k}={v}') for k, v in vars.items()]" >> $GITHUB_ENV
+          echo "ENV_FILE=$ENV_FILE" >> $GITHUB_ENV
           
       - name: Google Cloud Auth for Main
         uses: 'google-github-actions/auth@v2'
@@ -73,7 +74,7 @@ jobs:
             --image ${{ env.DOCKER_IMAGE_URL }}:latest \
             --platform managed \
             --region ${{ env.REGION }} \
-            --env-vars-file ${{ ENV_FILE }} \
+            --env-vars-file ${{ env.ENV_FILE }} \
             --allow-unauthenticated
 #      - name: Generate API_GATEWAY_CONFIG_ID
 #        id: uuid
