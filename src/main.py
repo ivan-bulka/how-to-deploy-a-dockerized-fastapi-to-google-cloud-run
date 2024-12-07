@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from . import smokeTest
+import os
 
 import debugpy
 
@@ -29,5 +30,5 @@ app.include_router(smokeTest.router, prefix="/smoke-test")
 @app.get('/')
 def health():
     return {
-        "message": "Hello world with changes CI"
+        "message": f"Hello world with changes CI: {os.getenv('TEST_VARIABLE')}"
     }

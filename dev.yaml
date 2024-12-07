@@ -5,3 +5,5 @@
   API_ID: test-deployment-api
   API_GATEWAY_ID: test-deployment-api-gateway
   REGION: us-central1
+
+  TEST_VARIABLE: "alloha"
