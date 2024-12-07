@@ -38,15 +38,31 @@ jobs:
             echo "Unsupported branch. Exiting."
             exit 1
           fi
-      - name: Determine Service Account
-        id: determine-service-account
-        run: |
-          # Set credentials based on determined environment
-          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            echo "GCP_SA_KEY=${{ secrets.GCP_SA_KEY }}" >> $GITHUB_ENV
-          elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
-            echo "GCP_SA_KEY=${{ secrets.GCP_SA_KEY }}" >> $GITHUB_ENV
-          fi
+          
+      - name: Google Cloud Auth for Main
+        uses: 'google-github-actions/auth@v2'
+        if: github.ref == 'refs/heads/main'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+          project_id: ${{ env.MAIN_PROJECT_ID }}
+
+      - name: Google Cloud Auth for Dev
+        uses: 'google-github-actions/auth@v2'
+        if: github.ref != 'refs/heads/main'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+          project_id: ${{ env.DEV_PROJECT_ID }}
+      
+
+#      - name: Determine Service Account
+#        id: determine-service-account
+#        run: |
+#          # Set credentials based on determined environment
+#          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+#            echo "GCP_SA_KEY=${{ secrets.GCP_SA_KEY }}" >> $GITHUB_ENV
+#          elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
+#            echo "GCP_SA_KEY=${{ secrets.GCP_SA_KEY }}" >> $GITHUB_ENV
+#          fi
           
 #          cat $ENV_FILE
 #             python -c "import yaml; vars = yaml.safe_load(open('$ENV_FILE')); [print(f'{k}={v}') for k, v in vars.items()]" >> $GITHUB_ENV
